@@ -1,18 +1,20 @@
-import React from "react"
+import Login from '../containers/Guest/Login';
+import PasswordForgot from '../containers/Guest/PasswordForgot';
+import PasswordRecovery from '../containers/Guest/PasswordRecovery';
 
 const publicRoutes: RouteType[] = [
   {
-    path: "/login",
-    component: React.lazy(() => import("../containers/Guest/Login"))
+    path: '/login',
+    component: Login,
   },
   {
-    path: "/forgot-password",
-    component: React.lazy(() => import("../containers/Guest/PasswordForgot"))
+    path: '/forgot-password',
+    component: PasswordForgot,
   },
   {
-    path: "/password-recovery",
-    component: React.lazy(() => import("../containers/Guest/PasswordRecovery"))
+    path: '/password-recovery',
+    component: PasswordRecovery,
   },
-]
+];
 
-export default publicRoutes
+export default publicRoutes;

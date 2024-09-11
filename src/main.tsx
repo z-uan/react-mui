@@ -12,7 +12,7 @@ import './utils/shared';
 import './i18next/i18next.config';
 
 // Loading layout
-import SkeletonLayout from './components/layouts/SkeletonLayout';
+import LoadingFullscreen from './components/Loading/Fullscreen';
 
 // App
 const App = React.lazy(() => import('./App'));
@@ -25,7 +25,7 @@ const root = document.getElementById('root')!;
 createRoot(root).render(
   <CookiesProvider defaultSetOptions={{ path: '/' }}>
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<SkeletonLayout />}>
+      <Suspense fallback={<LoadingFullscreen />}>
         <BrowserRouter children={<App />} />
       </Suspense>
     </QueryClientProvider>
