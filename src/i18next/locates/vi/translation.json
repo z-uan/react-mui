@@ -1,0 +1,32 @@
+{
+  "locates": {
+    "vi": "Việt Nam",
+    "zh": "Trung Quốc"
+  },
+  "errors": {
+    "server": "Hệ thống đang gặp sự cố",
+    "not_found": "Yêu cầu không tồn tại",
+    "timeout": "Đã quá thời gian xử lý"
+  },
+  "login": {
+    "title": "Đăng nhập",
+    "username": {
+      "label": "Tài khoản",
+      "requỉred": "Vui lòng nhập tài khoản",
+      "in_valid": "Tài khoản không chính xác"
+    },
+    "password": {
+      "label": "Mật khẩu",
+      "requỉred": "Vui lòng nhập mật khẩu",
+      "max_length": "Mật khẩu tối đa {{size}} ký tự",
+      "min_length": "Mật khẩu tối thiểu {{size}} ký tự",
+      "in_valid": "Mật khẩu không chính xác"
+    },
+    "errors": {
+      "in_active": "Tài khoản đang bị khóa"
+    },
+    "remember_me_text": "Ghi nhớ tài khoản",
+    "button_login_text": "Đăng nhập",
+    "forgot_password_link": "Quên mật khẩu?"
+  }
+}
