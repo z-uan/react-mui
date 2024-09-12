@@ -17,6 +17,8 @@ import {
   Alert,
   Card,
   styled,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 
 import {
@@ -31,20 +33,29 @@ import LanguageChange from '../../components/LanguageChange';
 import accountService from '../../services/account.service';
 import { TextField } from '../../components/Form';
 
-const LoginWrapper = styled('div')(({ theme: { color } }) => ({
-  background: color?.background?.light,
-  position: 'relative',
-  padding: '0 1rem',
-  height: '100vh',
-}));
+const LOGIN_FORM_WIDTH = 560;
+
+const LoginWrapper = styled('div')<{ isMobile: boolean }>(
+  ({ theme: { palette, color }, isMobile }) => ({
+    background: isMobile ? color?.white : palette?.background?.default,
+    position: 'relative',
+    padding: '1rem',
+    minHeight: '100vh',
+    transition: 'all .2s',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }),
+);
 
 const LoginContainer = styled('div')({
-  position: 'absolute',
-  left: '50%',
-  top: '50%',
+  // position: 'absolute',
+  // left: '50%',
+  // top: '50%',
   width: '100%',
-  maxWidth: '560px',
-  transform: 'translate(-50%, -50%)',
+  maxWidth: `${LOGIN_FORM_WIDTH}px`,
+  // transform: 'translate(-50%, -50%)',
+  transition: 'all .2s',
 });
 
 const LogoImg = styled('img')({
@@ -66,10 +77,12 @@ function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginType>();
+  const theme = useTheme();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const isMobile = useMediaQuery(theme.breakpoints.down(LOGIN_FORM_WIDTH));
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -85,7 +98,7 @@ function Login() {
     (payload: LoginType) => accountService.login(payload),
     {
       onSuccess: ({ data, code, errors }) => {
-        if (code === 'OK') {
+        if (data && code === 'OK') {
           cookies.setLogin(data);
           navigate('/', {
             replace: true,
@@ -108,6 +121,11 @@ function Login() {
   );
 
   const onSubmit = (data: LoginType) => {
+    if (data.remember) {
+      cookies.setRemember(data);
+    } else {
+      cookies.removeRemember();
+    }
     mutationLogin.mutate(data);
   };
 
@@ -117,20 +135,22 @@ function Login() {
         <title>{t('login.title')} - XHL Corp</title>
       </Helmet>
 
-      <LoginWrapper>
+      <LoginWrapper isMobile={isMobile}>
         <LoginContainer>
           <Card
             elevation={0}
             sx={{
-              padding: '2rem',
-              borderRadius: '1.25rem',
+              padding: isMobile ? '2rem 1rem 0' : '2rem',
+              borderRadius: isMobile ? '0' : '1.25rem',
+              transition: 'all .2s',
             }}
           >
             <LogoImg src="/logo.png" alt="XHL Corp Logo" />
 
             <Typography
-              variant="h2"
-              sx={{ marginBottom: '1rem', fontWeight: 400 }}
+              variant="h1"
+              fontSize="2rem"
+              sx={{ marginBottom: '1rem', fontWeight: 500 }}
             >
               {t('login.title')}
             </Typography>
@@ -145,7 +165,7 @@ function Login() {
               component="form"
               display="flex"
               flexDirection="column"
-              gap={2}
+              gap={1}
               noValidate
               autoComplete="off"
               onSubmit={handleSubmit(onSubmit)}
@@ -154,7 +174,7 @@ function Login() {
                 <Controller
                   name="username"
                   control={control}
-                  defaultValue=""
+                  defaultValue={cookies.remember?.username || ''}
                   rules={{ required: 'login.username.required' }}
                   render={({ field }) => (
                     <TextField
@@ -183,7 +203,7 @@ function Login() {
                 <Controller
                   name="password"
                   control={control}
-                  defaultValue=""
+                  defaultValue={cookies.remember?.password || ''}
                   rules={{ required: 'login.password.required' }}
                   render={({ field }) => (
                     <TextField
@@ -205,9 +225,13 @@ function Login() {
                           endAdornment: (
                             <InputAdornment position="end">
                               <IconButton
+                                disableRipple
                                 onClick={handleClickShowPassword}
                                 onMouseDown={handleMouseDownPassword}
                                 onMouseUp={handleMouseUpPassword}
+                                sx={{
+                                  padding: '0.1rem 0 0 0',
+                                }}
                               >
                                 {showPassword ? (
                                   <VisibilityOffOutlined />
@@ -237,14 +261,22 @@ function Login() {
                   render={({ field }) => (
                     <FormControlLabel
                       {...field}
-                      control={<Checkbox />}
+                      sx={{
+                        marginBottom: '-0.1rem',
+                      }}
+                      control={
+                        <Checkbox
+                          defaultChecked={cookies.remember?.remember || false}
+                        />
+                      }
                       label={t('login.remember_me_text')}
+                      defaultChecked={cookies.remember?.remember || false}
                     />
                   )}
                 />
 
                 <Link to="/forgot-password" style={{ textDecoration: 'none' }}>
-                  <Typography align="right">
+                  <Typography align="right" color="info">
                     {t('login.forgot_password_link')}
                   </Typography>
                 </Link>
@@ -253,7 +285,7 @@ function Login() {
               <Button
                 variant="contained"
                 size="large"
-                color="primary"
+                color="info"
                 type="submit"
                 sx={{
                   marginBottom: '1rem',
@@ -263,7 +295,12 @@ function Login() {
               </Button>
             </Box>
           </Card>
-          <LanguageChange sx={{ marginTop: '0.25rem' }} />
+          <LanguageChange
+            sx={{
+              marginTop: '0.25rem',
+              marginLeft: isMobile ? '0.2rem' : '',
+            }}
+          />
         </LoginContainer>
       </LoginWrapper>
     </>

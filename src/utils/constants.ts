@@ -45,11 +45,12 @@ export const FieldsConstants = {
 const Constants = {
   API_BASE_URL: 'http://127.0.0.1:8000',
   COOKIES: {
-    USER_ID: 'user_id',
-    ACCESS_TOKEN: '_tk',
-    REFRESH_TOKEN: '_rtk',
-    LOGGED_STATUS: 'logged',
-    USER_SESSION: 'user_session',
+    USER_ID: window.btoa('user_id'),
+    REMEMBER: window.btoa('remember'),
+    LOGGED_STATUS: window.btoa('logged'),
+    USER_SESSION: window.btoa('user_session'),
+    ACCESS_TOKEN: window.btoa('access_token'),
+    REFRESH_TOKEN: window.btoa('refresh_token'),
   },
 };
 

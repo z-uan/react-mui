@@ -1,9 +1,9 @@
-import Home from '../containers/Home';
+import React from 'react';
 
 const privateRoutes: RouteType[] = [
   {
     path: '/',
-    component: Home,
+    component: React.lazy(() => import('../containers/Home')),
   },
 ];
 

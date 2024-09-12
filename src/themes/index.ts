@@ -1,22 +1,14 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, ThemeOptions } from '@mui/material/styles';
+import themeTypographies from './_typography';
+import themeComponents from './_components';
+import themePalettes from './_palette';
+import themeColors from './_color';
 
-// Fonts
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+const themeOptions: ThemeOptions = {
+  typography: themeTypographies,
+  components: themeComponents,
+  palette: themePalettes,
+  color: themeColors,
+};
 
-let name = localStorage.getItem('theme') || 'default';
-
-if (!['default', 'dark'].includes(name)) {
-  name = 'default';
-}
-
-export default async function initialTheme() {
-  try {
-    const jsonTheme = await import(`./${name}.theme.ts`);
-    return createTheme(jsonTheme.default);
-  } catch {
-    return createTheme({});
-  }
-}
+export default createTheme(themeOptions);

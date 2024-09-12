@@ -13,12 +13,12 @@ export const cookies = {
     Cookies.remove(key, options);
   },
   setAToken(value: string) {
-    Cookies.set(Constants.COOKIES.ACCESS_TOKEN, btoa(value), {
+    Cookies.set(Constants.COOKIES.ACCESS_TOKEN, value, {
       expires: Utils.getExpireMinutes(10),
     });
   },
   setRToken(value: string) {
-    Cookies.set(Constants.COOKIES.REFRESH_TOKEN, btoa(value), {
+    Cookies.set(Constants.COOKIES.REFRESH_TOKEN, value, {
       expires: Utils.getExpireDate(30),
     });
   },
@@ -34,6 +34,9 @@ export const cookies = {
   },
   setLogged(status: 'yes' | 'no') {
     Cookies.set(Constants.COOKIES.LOGGED_STATUS, status);
+  },
+  setRemember(payload: LoginType) {
+    Cookies.set(Constants.COOKIES.REMEMBER, JSON.stringify(payload));
   },
   setLogin(data: LoginResults) {
     if (data?.user) {
@@ -71,6 +74,13 @@ export const cookies = {
     }
     return JSON.parse(userSession);
   },
+  get remember(): LoginType | null {
+    const remember = Cookies.get(Constants.COOKIES.REMEMBER);
+    if (!remember) {
+      return null;
+    }
+    return JSON.parse(remember);
+  },
   get userId(): number | null {
     const userId = Cookies.get(Constants.COOKIES.USER_ID);
     if (!userId) {
@@ -84,5 +94,8 @@ export const cookies = {
     Cookies.remove(Constants.COOKIES.LOGGED_STATUS);
     Cookies.remove(Constants.COOKIES.USER_SESSION);
     Cookies.remove(Constants.COOKIES.USER_ID);
+  },
+  removeRemember() {
+    Cookies.remove(Constants.COOKIES.REMEMBER);
   },
 };

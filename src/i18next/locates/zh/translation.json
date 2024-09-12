@@ -15,7 +15,7 @@
   "login": {
     "title": "登录",
     "username": {
-      "label": "账户",
+      "label": "账号或邮箱",
       "required": "请输入帐号",
       "in_valid": "帐号错误",
       "in_active": "帐户已被锁定"
@@ -30,5 +30,17 @@
     "remember_me_text": "记住帐号",
     "button_login_text": "登录",
     "forgot_password_link": "忘记密码?"
+  },
+  "forgot_password": {
+    "title": "找回密码",
+    "subtitle": "请输入以下信息以继续。您将收到一封包含 OTP 代码的电子邮件",
+    "username": {
+      "label": "电子邮件",
+      "required": "请输入电子邮件",
+      "in_valid": "电子邮件不正确",
+      "in_active": "帐户已被锁定"
+    },
+    "button_forgot_password_text": "恢复密码",
+    "back_to_login_link": "返回登录"
   }
 }

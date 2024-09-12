@@ -15,7 +15,7 @@
   "login": {
     "title": "Đăng nhập",
     "username": {
-      "label": "Tài khoản",
+      "label": "Tài khoản hoặc Email",
       "required": "Vui lòng nhập tài khoản",
       "in_valid": "Tài khoản không chính xác",
       "in_active": "Tài khoản đang bị khóa"
@@ -30,5 +30,17 @@
     "remember_me_text": "Ghi nhớ tài khoản",
     "button_login_text": "Đăng nhập",
     "forgot_password_link": "Quên mật khẩu?"
+  },
+  "forgot_password": {
+    "title": "Lấy lại mật khẩu",
+    "subtitle": "Vui lòng nhập thông tin dưới để tiếp tục. Bạn sẽ nhận email chứa mã OTP.",
+    "username": {
+      "label": "Địa chỉ Email",
+      "required": "Vui lòng nhập email",
+      "in_valid": "Email không chính xác",
+      "in_active": "Tài khoản đang bị khóa"
+    },
+    "button_forgot_password_text": "Lấy lại mật khẩu",
+    "back_to_login_link": "Quay lại đăng nhập"
   }
 }

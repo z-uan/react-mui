@@ -11,3 +11,18 @@ declare type UserType = {
   fullname?: string | null;
   user_code?: string | null;
 };
+
+declare type RTokenResponse = DataResponse<{
+  access_token: string;
+  refresh_token: string;
+}>;
+
+declare type LoginResults = {
+  access_token: string;
+  refresh_token: string;
+  user?: UserType;
+};
+
+declare type LoginResponse = DataResponse<LoginResults>;
+
+declare type UserInfoResponse = DataResponse<UserType>;

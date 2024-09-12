@@ -8,43 +8,46 @@ import { Controller, useForm } from 'react-hook-form';
 import {
   Box,
   Button,
-  Checkbox,
-  IconButton,
   FormControl,
-  FormControlLabel,
   InputAdornment,
   Typography,
   Alert,
   Card,
   styled,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 
-import {
-  AccountCircleOutlined,
-  VisibilityOffOutlined,
-  VisibilityOutlined,
-  LockOutlined,
-} from '@mui/icons-material';
+import { AccountCircleOutlined } from '@mui/icons-material';
 
 import { cookies } from '../../utils/storage';
 import LanguageChange from '../../components/LanguageChange';
 import accountService from '../../services/account.service';
 import { TextField } from '../../components/Form';
 
-const LoginWrapper = styled('div')(({ theme: { color } }) => ({
-  background: color?.background?.light,
-  position: 'relative',
-  padding: '0 1rem',
-  height: '100vh',
-}));
+const FORGOT_PASSOWRD_FORM_WIDTH = 560;
 
-const LoginContainer = styled('div')({
-  position: 'absolute',
-  left: '50%',
-  top: '50%',
+const PasswordForgotWrapper = styled('div')<{ isMobile: boolean }>(
+  ({ theme: { palette, color }, isMobile }) => ({
+    background: isMobile ? color?.white : palette?.background?.default,
+    position: 'relative',
+    padding: '1rem',
+    minHeight: '100vh',
+    transition: 'all .2s',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }),
+);
+
+const PasswordForgotContainer = styled('div')({
+  // position: 'absolute',
+  // left: '50%',
+  // top: '50%',
   width: '100%',
-  maxWidth: '560px',
-  transform: 'translate(-50%, -50%)',
+  maxWidth: `${FORGOT_PASSOWRD_FORM_WIDTH}px`,
+  // transform: 'translate(-50%, -50%)',
+  transition: 'all .2s',
 });
 
 const LogoImg = styled('img')({
@@ -59,33 +62,26 @@ const LogoImg = styled('img')({
   userSelect: 'none',
 });
 
-function Login() {
+function PasswordForgot() {
   const {
     control,
     setError,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginType>();
+  const theme = useTheme();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (e: ButtonMouseEvent) => {
-    e.preventDefault();
-  };
-
-  const handleMouseUpPassword = (e: ButtonMouseEvent) => {
-    e.preventDefault();
-  };
+  const isMobile = useMediaQuery(
+    theme.breakpoints.down(FORGOT_PASSOWRD_FORM_WIDTH),
+  );
 
   const mutationLogin = useMutation(
     (payload: LoginType) => accountService.login(payload),
     {
       onSuccess: ({ data, code, errors }) => {
-        if (code === 'OK') {
+        if (data && code === 'OK') {
           cookies.setLogin(data);
           navigate('/', {
             replace: true,
@@ -108,6 +104,11 @@ function Login() {
   );
 
   const onSubmit = (data: LoginType) => {
+    if (data.remember) {
+      cookies.setRemember(data);
+    } else {
+      cookies.removeRemember();
+    }
     mutationLogin.mutate(data);
   };
 
@@ -117,22 +118,32 @@ function Login() {
         <title>{t('login.title')} - XHL Corp</title>
       </Helmet>
 
-      <LoginWrapper>
-        <LoginContainer>
+      <PasswordForgotWrapper isMobile={isMobile}>
+        <PasswordForgotContainer>
           <Card
             elevation={0}
             sx={{
-              padding: '2rem',
-              borderRadius: '1.25rem',
+              padding: isMobile ? '2rem 1rem 0' : '2rem',
+              borderRadius: isMobile ? '0' : '1.25rem',
+              transition: 'all .2s',
             }}
           >
             <LogoImg src="/logo.png" alt="XHL Corp Logo" />
 
             <Typography
-              variant="h2"
+              variant="h1"
+              fontSize="2rem"
+              sx={{ marginBottom: '0.7rem', fontWeight: 500 }}
+            >
+              {t('forgot_password.title')}
+            </Typography>
+
+            <Typography
+              variant="subtitle2"
+              color="textSecondary"
               sx={{ marginBottom: '1rem', fontWeight: 400 }}
             >
-              {t('login.title')}
+              {t('forgot_password.subtitle')}
             </Typography>
 
             {errorMsg && (
@@ -154,16 +165,16 @@ function Login() {
                 <Controller
                   name="username"
                   control={control}
-                  defaultValue=""
-                  rules={{ required: 'login.username.required' }}
+                  defaultValue={cookies.remember?.username || ''}
+                  rules={{ required: 'forgot_password.username.required' }}
                   render={({ field }) => (
                     <TextField
                       {...field}
                       required
                       id="username"
                       error={!!errors.username}
-                      label={t('login.username.label')}
-                      placeholder={t('login.username.label')}
+                      label={t('forgot_password.username.label')}
+                      placeholder={t('forgot_password.username.label')}
                       helperText={t(errors.username?.message || '')}
                       slotProps={{
                         input: {
@@ -179,95 +190,39 @@ function Login() {
                 />
               </FormControl>
 
-              <FormControl fullWidth margin="normal">
-                <Controller
-                  name="password"
-                  control={control}
-                  defaultValue=""
-                  rules={{ required: 'login.password.required' }}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      required
-                      id="password"
-                      error={!!errors.password}
-                      label={t('login.password.label')}
-                      placeholder={t('login.password.label')}
-                      helperText={t(errors.password?.message || '')}
-                      type={showPassword ? 'text' : 'password'}
-                      slotProps={{
-                        input: {
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <LockOutlined />
-                            </InputAdornment>
-                          ),
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton
-                                onClick={handleClickShowPassword}
-                                onMouseDown={handleMouseDownPassword}
-                                onMouseUp={handleMouseUpPassword}
-                              >
-                                {showPassword ? (
-                                  <VisibilityOffOutlined />
-                                ) : (
-                                  <VisibilityOutlined />
-                                )}
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        },
-                      }}
-                    />
-                  )}
-                />
-              </FormControl>
-
-              <Box
-                display="flex"
-                alignItems="center"
-                sx={{ userSelect: 'none' }}
-                justifyContent="space-between"
-              >
-                <Controller
-                  name="remember"
-                  control={control}
-                  defaultValue={false}
-                  render={({ field }) => (
-                    <FormControlLabel
-                      {...field}
-                      control={<Checkbox />}
-                      label={t('login.remember_me_text')}
-                    />
-                  )}
-                />
-
-                <Link to="/forgot-password" style={{ textDecoration: 'none' }}>
-                  <Typography align="right">
-                    {t('login.forgot_password_link')}
-                  </Typography>
-                </Link>
-              </Box>
-
               <Button
                 variant="contained"
                 size="large"
-                color="primary"
+                color="info"
                 type="submit"
-                sx={{
+              >
+                {t('forgot_password.button_forgot_password_text')}
+              </Button>
+
+              <Link
+                to="/login"
+                style={{
+                  textDecoration: 'none',
                   marginBottom: '1rem',
+                  textAlign: 'center',
                 }}
               >
-                {t('login.button_login_text')}
-              </Button>
+                <Button variant="text" fullWidth color="secondary" size="small">
+                  {t('forgot_password.back_to_login_link')}
+                </Button>
+              </Link>
             </Box>
           </Card>
-          <LanguageChange sx={{ marginTop: '0.25rem' }} />
-        </LoginContainer>
-      </LoginWrapper>
+          <LanguageChange
+            sx={{
+              marginTop: '0.25rem',
+              marginLeft: isMobile ? '0.2rem' : '',
+            }}
+          />
+        </PasswordForgotContainer>
+      </PasswordForgotWrapper>
     </>
   );
 }
 
-export default Login;
+export default PasswordForgot;

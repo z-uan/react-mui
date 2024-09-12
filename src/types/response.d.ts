@@ -18,16 +18,3 @@ declare interface PaginateRequest<T> extends T {
   page: number;
   page_size: number;
 }
-
-declare type RTokenResponse = Response<{
-  access_token: string;
-  refresh_token: string;
-}>;
-
-declare type LoginResults = {
-  access_token: string;
-  refresh_token: string;
-  user?: UserType;
-};
-
-declare type LoginResponse = Response<LoginResults>;
