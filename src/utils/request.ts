@@ -49,15 +49,14 @@ privateRequest.interceptors.response.use(
     originalRequest._retry = true;
 
     try {
-      const {
-        code,
-        data: { access_token, refresh_token },
-      } = await accountService.rToken(cookies.rToken);
-      if (access_token && refresh_token && code === StatusConstants.CODE_OK) {
-        cookies.setAToken(access_token);
-        cookies.setRToken(refresh_token);
+      const { code, data } = await accountService.rToken(cookies.rToken);
+      const accessToken = data?.access_token;
+      const refreshToken = data?.refresh_token;
+      if (accessToken && refreshToken && code === StatusConstants.CODE_OK) {
+        cookies.setAToken(accessToken);
+        cookies.setRToken(refreshToken);
 
-        const bearerToken = `Bearer ${access_token}`;
+        const bearerToken = `Bearer ${accessToken}`;
         privateRequest.defaults.headers['Authorization'] = bearerToken;
 
         return privateRequest(originalRequest);
