@@ -64,6 +64,18 @@ const themeComponents: ThemeOptions['components'] = {
         src: url(${RobotoBold}) format("truetype");
         font-weight: 700;
       }
+
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100dvh;
+      }
+
+      .app-wrapper {
+        min-height: 100dvh
+      }
     `,
   },
 };

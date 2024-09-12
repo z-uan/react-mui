@@ -7,13 +7,11 @@ type LoggedRouteProps = {
 };
 
 function LoggedRoute(props: LoggedRouteProps) {
-  const redirect_to = props?.redirect_to || '/';
-
-  if (cookies.logged && redirect_to) {
-    return <Navigate to={redirect_to} />;
+  if (!cookies.logged) {
+    return props.children;
   }
 
-  return props.children;
+  return <Navigate to={props?.redirect_to || '/'} />;
 }
 
 export default LoggedRoute;

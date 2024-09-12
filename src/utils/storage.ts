@@ -50,7 +50,7 @@ export const cookies = {
     cookies.setLogged('yes');
   },
   get logged(): boolean {
-    const loggedStatus = Cookies.get(Constants.COOKIES.LOGGED_STATUS);
+    const loggedStatus = Cookies.get(Constants.COOKIES.LOGGED_STATUS) || 'no';
     return loggedStatus === 'yes';
   },
   get aToken(): string {

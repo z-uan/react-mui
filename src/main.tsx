@@ -19,7 +19,7 @@ const App = React.lazy(() => import('./App'));
 
 const queryClient = new QueryClient();
 
-createRoot(document.getElementById('xhl-corp')!).render(
+createRoot(document.getElementById('root')!).render(
   <CookiesProvider defaultSetOptions={{ path: '/' }}>
     <QueryClientProvider client={queryClient}>
       <Suspense fallback={<LoadingFullscreen />}>

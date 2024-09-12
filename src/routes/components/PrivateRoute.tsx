@@ -6,11 +6,11 @@ type PrivateRouteProps = {
 };
 
 function PrivateRoute(props: PrivateRouteProps) {
-  if (!cookies.logged) {
-    return <Navigate to="/login" />;
+  if (cookies.logged) {
+    return props.children;
   }
 
-  return props.children;
+  return <Navigate to="/login" replace />;
 }
 
 export default PrivateRoute;

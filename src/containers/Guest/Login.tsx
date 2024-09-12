@@ -38,13 +38,11 @@ const LOGIN_FORM_WIDTH = 560;
 const LoginWrapper = styled('div')<{ isMobile: boolean }>(
   ({ theme: { palette, color }, isMobile }) => ({
     background: isMobile ? color?.white : palette?.background?.default,
-    position: 'relative',
-    padding: '1rem',
-    minHeight: '100vh',
     transition: 'all .2s',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    height: '100dvh',
   }),
 );
 
