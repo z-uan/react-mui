@@ -1,27 +1,49 @@
 import { useTranslation } from 'react-i18next';
-import TranslateIcon from '@mui/icons-material/Translate';
-import { Box, Typography } from '@mui/material';
+import {
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  SxProps,
+  Theme,
+} from '@mui/material';
 
-function LanguageChange() {
-  const { t, i18n } = useTranslation();
+type LanguageChangeProps = {
+  sx?: SxProps<Theme>;
+};
 
-  const changeLanguage = () => {
-    i18n.changeLanguage(i18n.language === 'vi' ? 'zh' : 'vi');
+function LanguageChange(props: LanguageChangeProps) {
+  const { i18n } = useTranslation();
+  const translations = i18n.getResourceBundle(i18n.language, 'translation');
+
+  const changeLanguage = (e: SelectChangeEvent) => {
+    i18n.changeLanguage(e.target.value);
   };
 
+  const languages = Object.entries<string>(translations?.locates || {});
+
   return (
-    <Box
-      gap={0.5}
-      display="flex"
-      alignItems="center"
-      onClick={changeLanguage}
-      sx={{ cursor: 'pointer' }}
+    <Select
+      size="small"
+      sx={{
+        border: 'none',
+        '& .MuiSelect-select': {
+          border: 'none',
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+          border: 'none',
+        },
+        minWidth: '120px',
+        ...(props.sx || {}),
+      }}
+      value={i18n.language}
+      onChange={changeLanguage}
     >
-      <TranslateIcon color={i18n.language === 'zh' ? 'primary' : 'inherit'} />
-      <Typography color={i18n.language === 'zh' ? 'primary' : 'inherit'} fontSize={14}>
-        {t(`locates.${i18n.language}`)}
-      </Typography>
-    </Box>
+      {languages.map(([key, value]) => (
+        <MenuItem key={key} value={key}>
+          {value}
+        </MenuItem>
+      ))}
+    </Select>
   );
 }
 

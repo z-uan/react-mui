@@ -1,14 +1,22 @@
 // MUI
 import { ThemeProvider } from '@mui/material/styles';
-import { CssBaseline } from '@mui/material';
+import { CssBaseline, Theme } from '@mui/material';
 
-// Themes
 import { Layout } from './components/layouts';
-import materialTheme from './theme/material.theme';
+import useNetwork from './utils/hooks/useNetwork';
 
-function App() {
+type AppProps = {
+  theme: Theme;
+};
+
+function App(props: AppProps) {
+  const isNetwork = useNetwork();
+
+  window.globalThis.isNetwork = isNetwork;
+  window.isNetwork = isNetwork;
+
   return (
-    <ThemeProvider theme={materialTheme.light}>
+    <ThemeProvider theme={props.theme}>
       <CssBaseline children={<Layout />} />
     </ThemeProvider>
   );

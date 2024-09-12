@@ -1,29 +1,31 @@
 {
   "locates": {
-    "vi": "Việt Nam",
-    "zh": "Trung Quốc"
+    "vi": "Tiếng Việt",
+    "zh": "中文 (香港)"
   },
   "errors": {
     "server": "Hệ thống đang gặp sự cố",
     "not_found": "Yêu cầu không tồn tại",
-    "timeout": "Đã quá thời gian xử lý"
+    "timeout": "Đã quá thời gian xử lý",
+    "network": {
+      "title": "Lỗi kết nối mạng?",
+      "message": "Vui lòng kiển tra lại kết nối mạng để tiếp tục sử dụng ứng dụng."
+    }
   },
   "login": {
     "title": "Đăng nhập",
     "username": {
       "label": "Tài khoản",
-      "requỉred": "Vui lòng nhập tài khoản",
-      "in_valid": "Tài khoản không chính xác"
+      "required": "Vui lòng nhập tài khoản",
+      "in_valid": "Tài khoản không chính xác",
+      "in_active": "Tài khoản đang bị khóa"
     },
     "password": {
       "label": "Mật khẩu",
-      "requỉred": "Vui lòng nhập mật khẩu",
+      "required": "Vui lòng nhập mật khẩu",
       "max_length": "Mật khẩu tối đa {{size}} ký tự",
       "min_length": "Mật khẩu tối thiểu {{size}} ký tự",
       "in_valid": "Mật khẩu không chính xác"
-    },
-    "errors": {
-      "in_active": "Tài khoản đang bị khóa"
     },
     "remember_me_text": "Ghi nhớ tài khoản",
     "button_login_text": "Đăng nhập",

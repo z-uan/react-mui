@@ -1,7 +1,23 @@
-import { Outlet } from 'react-router-dom';
+import { Button } from '@mui/material';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { cookies } from '../../utils/storage';
 
 function PrivateLayout() {
-  return <Outlet />;
+  const navigate = useNavigate()
+
+  const onLogout = () => {
+    cookies.removeDataLogged()
+    navigate('/login', {
+      replace: true,
+    });
+  }
+
+  return (
+    <>
+      <Button onClick={onLogout}>Logout</Button>
+      <Outlet />
+    </>
+  );
 }
 
 export default PrivateLayout;

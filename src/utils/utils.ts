@@ -20,4 +20,12 @@ export default {
   formatTimeWithSeconds(date?: moment.MomentInput) {
     return moment(date).format('HH:mm:ss');
   },
+
+  getExpireMinutes(minutes: number) {
+    return new Date(new Date().setMinutes(new Date().getMinutes() + minutes));
+  },
+
+  getExpireDate(day: number) {
+    return new Date(new Date().setDate(new Date().getDate() + day));
+  },
 };

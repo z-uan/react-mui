@@ -1,29 +1,31 @@
 {
   "locates": {
-    "vi": "越南",
-    "zh": "中国"
+    "vi": "Tiếng Việt",
+    "zh": "中文 (香港)"
   },
   "errors": {
     "server": "系统遇到问题",
     "not_found": "Y请求不存在",
-    "timeout": "处理时间已超过"
+    "timeout": "处理时间已超过",
+    "network": {
+      "title": "网络连接错误?",
+      "message": "请检查您的网络连接以继续使用该应用程序"
+    }
   },
   "login": {
     "title": "登录",
     "username": {
       "label": "账户",
-      "requỉred": "请输入帐号",
-      "in_valid": "帐号错误"
+      "required": "请输入帐号",
+      "in_valid": "帐号错误",
+      "in_active": "帐户已被锁定"
     },
     "password": {
       "label": "密码",
-      "requỉred": "请输入密码",
+      "required": "请输入密码",
       "max_length": "密码最大长度为 {{size}} 个字符",
       "min_length": "密码最少为 {{size}} 个字符",
       "in_valid": "密码不正确"
-    },
-    "errors": {
-      "in_active": "帐户已被锁定"
     },
     "remember_me_text": "记住帐号",
     "button_login_text": "登录",

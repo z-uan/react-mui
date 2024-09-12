@@ -6,10 +6,20 @@ import PrivateLayout from './PrivateLayout';
 import publicRoutes from '../../routes/public.route';
 import privateRoutes from '../../routes/private.route';
 
-import LogedRoute from '../../routes/components/LogedRoute';
+import LoggedRoute from '../../routes/components/LoggedRoute';
 import PrivateRoute from '../../routes/components/PrivateRoute';
+import {
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { WifiOff } from '@mui/icons-material';
 
 function Layout() {
+  const { t } = useTranslation();
+
   return (
     <>
       <Routes>
@@ -33,7 +43,7 @@ function Layout() {
               <Route
                 key={route.path}
                 path={route.path}
-                element={<LogedRoute children={<Component />} />}
+                element={<LoggedRoute children={<Component />} />}
               />
             );
           })}
@@ -41,6 +51,20 @@ function Layout() {
 
         <Route path="*" element={<h1>Not found</h1>} />
       </Routes>
+
+      <Dialog
+        maxWidth="xs"
+        open={!isNetwork}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle display="flex" gap={1} fontSize={16} marginTop="0.3rem">
+          <WifiOff /> {t('errors.network.title')}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>{t('errors.network.message')}</DialogContentText>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
