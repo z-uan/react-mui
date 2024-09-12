@@ -353,7 +353,7 @@ export const Colors = {
 
 const themeColors: ThemeOptions['color'] = {
   white: '#ffffff',
-  textColor: '#1a1e23',
+  textColor: blueGrey[900],
   background: {
     light: '#F1F4F9',
   },

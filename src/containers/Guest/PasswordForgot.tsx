@@ -60,6 +60,8 @@ const LogoImg = styled('img')({
   width: '124px',
   pointerEvents: 'none',
   userSelect: 'none',
+  height: '90px',
+  minHeight: '90px',
 });
 
 function PasswordForgot() {
@@ -115,7 +117,7 @@ function PasswordForgot() {
   return (
     <>
       <Helmet>
-        <title>{t('login.title')} - XHL Corp</title>
+        <title>{t('forgot_password.title')} - XHL Corp</title>
       </Helmet>
 
       <PasswordForgotWrapper isMobile={isMobile}>
@@ -176,6 +178,7 @@ function PasswordForgot() {
                       label={t('forgot_password.username.label')}
                       placeholder={t('forgot_password.username.label')}
                       helperText={t(errors.username?.message || '')}
+                      color="info"
                       slotProps={{
                         input: {
                           startAdornment: (

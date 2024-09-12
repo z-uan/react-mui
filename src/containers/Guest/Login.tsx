@@ -66,6 +66,8 @@ const LogoImg = styled('img')({
   maxWidth: '124px',
   minWidth: '124px',
   width: '124px',
+  height: '90px',
+  minHeight: '90px',
   pointerEvents: 'none',
   userSelect: 'none',
 });
@@ -185,6 +187,7 @@ function Login() {
                       label={t('login.username.label')}
                       placeholder={t('login.username.label')}
                       helperText={t(errors.username?.message || '')}
+                      color="info"
                       slotProps={{
                         input: {
                           startAdornment: (
@@ -215,6 +218,7 @@ function Login() {
                       placeholder={t('login.password.label')}
                       helperText={t(errors.password?.message || '')}
                       type={showPassword ? 'text' : 'password'}
+                      color="info"
                       slotProps={{
                         input: {
                           startAdornment: (
@@ -267,6 +271,7 @@ function Login() {
                       control={
                         <Checkbox
                           defaultChecked={cookies.remember?.remember || false}
+                          color="info"
                         />
                       }
                       label={t('login.remember_me_text')}
